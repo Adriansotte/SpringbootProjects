@@ -1,0 +1,71 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+<title>Thymeleaf - WebSecurity</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div th:fragment="logout" class="logout"
+		sec:authorize="isAuthenticated()">
+		Logged user: <span sec:authentication="name">Bob</span> | Roles: <span
+			sec:authentication="principal.authorities">[ROLE_USER,
+			ROLE_ADMIN]</span> |
+		<!--/* When using CSRF this needs to be a POST */-->
+		<form th:action="@{/logout}" method="post" style="display: inline">
+			<input type="submit" class="btn btn-danger" value="Logout" />
+		</form>
+	</div>
+	<div class="container pt-5">
+		<div class="row my-3">
+			<div class="col-12 text-center">
+				<h1>Thymeleaf - WebSecurity</h1>
+				<p>This is a demo of Thymeleaf and Spring-Security integration.</p>
+			</div>
+		</div>
+	</div>
+	<div class="row d-flex justify-content-center my-3">
+		<div class="col-5">
+			<h2>Private pages</h2>
+			<p>This is a public page, but you can navigate to protected pages
+				to trigger authentication.</p>
+			<ul>
+				<li>Go to <a href="admin/index.html"
+					th:href="@{/admin/index.html}">administration zone</a> (only
+					admins)
+				</li>
+				<li>Go to <a href="user/index.html"
+					th:href="@{/user/index.html}">user zone</a> (only users)
+				</li>
+				<li>Go to <a href="user/index.html"
+					th:href="@{/shared/index.html}">shared zone</a> (both users and
+					admins)
+				</li>
+			</ul>
+			<h2>Exception handling</h2>
+			<ul>
+				<li>You can <a href="error.html"
+					th:href="@{/simulateError.html}">simulate an exception</a> to see
+					custom ErrorPage.
+				</li>
+			</ul>
+
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
